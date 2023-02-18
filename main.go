@@ -14,12 +14,15 @@ type ssdusers struct {
 }
 
 func main() {
+
+	// Connect to MySQL Database
 	db, err := sql.Open("mysql", "user:password@tcp(localhost:3306)/databaseName")
 	if err != nil {
 		log.Fatal(err)
 	}
 	defer db.Close()
 
+	// Check if connection is still alive
 	err = db.Ping()
 	if err != nil {
 		log.Fatal(err)
@@ -27,8 +30,9 @@ func main() {
 
 	r := gin.Default()
 
+	// Call API to get users data
 	r.GET("/users", func(c *gin.Context) {
-		rows, err := db.Query("SELECT userID, username FROM tablename")
+		rows, err := db.Query("SELECT userID, fullNameTH FROM tablename")
 		if err != nil {
 			log.Fatal(err)
 		}
@@ -47,6 +51,7 @@ func main() {
 				"User ID":   dto.UserId,
 				"Full Name": dto.FulllNameTh})
 		}
+		// Return results as JSON body
 		c.JSON(200, gin.H{
 			"Results": users,
 		})
