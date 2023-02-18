@@ -28,7 +28,7 @@ func main() {
 	r := gin.Default()
 
 	r.GET("/users", func(c *gin.Context) {
-		rows, err := db.Query("SELECT userID, username FROM ssdusers")
+		rows, err := db.Query("SELECT userID, username FROM tablename")
 		if err != nil {
 			log.Fatal(err)
 		}
@@ -52,5 +52,6 @@ func main() {
 		})
 	})
 
+	// Run on port 8090
 	r.Run(":8090")
 }
